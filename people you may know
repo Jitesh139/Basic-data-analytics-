@@ -1,0 +1,22 @@
+import json
+data = json.load(open("massive_data.json"))
+print(data)
+def people_you_may_know(user_id,data):
+    user_friend={}
+    for user in data["users"]:
+        user_friend[user["id"]]=set(user['friends'])
+    if user_id not in user_friend:
+        return[]
+    direct_friends=user_friend[user_id]
+    suggestions={}
+    for friend in direct_friends:
+        for mutual in user_friend[friend]:
+            if mutual != user_id and mutual not in direct_friends:
+                # Count mutual friends
+                suggestions[mutual] = suggestions.get(mutual, 0) + 1
+    print(suggestions)
+    sorted_suggestions = sorted(suggestions.items(), key=lambda x: x[1], reverse=True)
+    return [user_id for user_id, _ in sorted_suggestions]
+user_id = 6  # Example: Finding suggestions for Amit
+recommendations = people_you_may_know(user_id,data)
+print(f"People You May Know for User {user_id}: {recommendations}")

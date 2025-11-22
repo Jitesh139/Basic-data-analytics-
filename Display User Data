@@ -1,0 +1,14 @@
+import json
+#it loads the json file by taking parameters
+def load_data(filename):
+    with open (filename,"r") as file:
+        data=json.load(file)
+    return data
+data =load_data("data.json")
+def display_user(data):
+    print("users connections and thier ids are\n")
+    for user in data['users']:
+        print(f"{user['name']} is friends with {user['friends']} and its id is {user['liked_pages']}")
+    for page in data['pages']:
+        print(f"{page['id']} liked the pages are {page['name']}")
+display_user(data)
